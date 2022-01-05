@@ -339,7 +339,7 @@ sqoop import \
 -Dfs.s3a.endpoint=s3.ap-north-1.amazonaws.com  \
 --connect jdbc:mysql://localhost/test \
 --username root \
---password cloudera \
+--password <> \
 --table customermod4 \
 -m 1 \
 --target-dir s3a://<>/<urname>_import;
