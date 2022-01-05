@@ -111,9 +111,7 @@ insert into cust_job values(2,'srini','2015-09-21');
 
 insert into cust_job values(3,'vasu','2015-09-22');
 
-================
-Edge node create the job ,validate,execute
-================
+======= Edge node create the job ,validate,execute ================
 hadoop dfsadmin -safemode leave
 
 sqoop job \
@@ -121,7 +119,7 @@ sqoop job \
 -- import \
 --connect jdbc:mysql://localhost/custserdb \
 --username root \
---password cloudera \
+--password <> \
 --table cust_job \
 -m 1 \
 --target-dir /user/cloudera/job_out \
@@ -143,6 +141,7 @@ Mysql
 ==================
 
 insert into cust_job values(4,'mohamed','2015-09-23');
+
 insert into cust_job values(5,'ravi','2015-09-24');
 
 
@@ -156,9 +155,7 @@ cat metastore.db.script | grep 'last.value'    --> gets updated to 5
 
 4) Not ask Password while executing the commands
 
-====================
-Edge node create the job ,validate,execute
-====================
+==================== Edge node create the job ,validate,execute ====================
 
 hadoop dfsadmin -safemode leave
 
@@ -269,15 +266,12 @@ insert into customermoda values(4,'mohamed','2015-09-23');
 
 insert into customermoda values(5,'arun','2015-09-24');
 
-==============
-Open Edge Node
-==============
-
+============== Open Edge Node ==============
 
 sqoop import \
 --connect jdbc:mysql://localhost/test \
 --username root \
--password cloudera \
+-password <> \
 -m 1 \
 --table customermoda \
 --target-dir /user/cloudera/dataimportmod2
@@ -285,21 +279,17 @@ sqoop import \
 hadoop fs -ls /user/cloudera/dataimportmod2
 hadoop fs -cat /user/cloudera/dataimportmod2/*
 
-=========
-Mysql 
-=========
+========= Mysql =========
 
 update customermoda set firstname='zeyo' where custid=3;
 select * from customermoda;
 
-=========
-Open Edge Node
-=========
+========= Open Edge Node =========
 
 sqoop import \
 --connect jdbc:mysql://localhost/test \
 --username root \
--password cloudera \
+-password <> \
 -m 1 \
 --table customermoda \
 --target-dir /user/cloudera/dataimportmod \
@@ -315,7 +305,9 @@ hadoop fs -cat /user/cloudera/dataimportmod2/*
 
 
 ===================
-8) SQOOP AWS IMPORT
+
+
+8) ========== SQOOP AWS IMPORT ============
 Mysql ---
 =========
 
@@ -344,7 +336,7 @@ Edge Node
 sqoop import \
 -Dfs.s3a.access.key=<> \
 -Dfs.s3a.secret.key=<>  \
--Dfs.s3a.endpoint=s3.ap-south-1.amazonaws.com  \
+-Dfs.s3a.endpoint=s3.ap-north-1.amazonaws.com  \
 --connect jdbc:mysql://localhost/test \
 --username root \
 --password cloudera \
@@ -352,7 +344,7 @@ sqoop import \
 -m 1 \
 --target-dir s3a://<>/<urname>_import;
 
-==========================================================
+=======================================
 
 9) ======
 Mysql
@@ -390,7 +382,7 @@ Edge Node
 sqoop import \
 --connect jdbc:mysql://localhost/test \
 --username root \
---password cloudera \
+--password <> \
 --table customer_mapper \
 -m 1  \
 --delete-target-dir \
@@ -402,7 +394,7 @@ hadoop fs -ls /user/cloudera/mapper_data --- One part File
 sqoop import \
 --connect jdbc:mysql://localhost/test \
 --username root \
---password cloudera \
+--password <> \
 --table customer_mapper \
 -m 2  \
 --delete-target-dir \
@@ -412,7 +404,7 @@ sqoop import \
 sqoop import \
 --connect jdbc:mysql://localhost/test \
 --username root \
---password cloudera \
+--password <> \
 --table customer_mapper \
 -m 2 \
 --split-by custid  \
@@ -426,7 +418,7 @@ hadoop fs -ls /user/cloudera/mapper_data ==========>>>>> Two Part  Files
 sqoop import \
 --connect jdbc:mysql://localhost/test \
 --username root \
---password cloudera \
+--password <> \
 --table customer_mapper \
 --split-by custid  \
 --delete-target-dir \
@@ -448,9 +440,13 @@ use test;
 CREATE TABLE customer_mapper_avro(custid INT,firstname VARCHAR(20),lastname VARCHAR(20),city varchar(50),age int,createdt date,transactamt int );
 
 insert into customer_mapper_avro values(1,'Arun','Kumar','chennai',33,'2015-09-20',100000);
+  
 insert into customer_mapper_avro values(2,'srini','vasan','chennai',33,'2015-09-21',10000);
+  
 insert into customer_mapper_avro values(3,'vasu','devan','banglore',39,'2015-09-22',90000);
+  
 insert into customer_mapper_avro values(4,'mohamed','imran','hyderabad',33,'2015-09-23',1000);
+  
 insert into customer_mapper_avro values(5,'arun','basker','chennai',23,'2015-09-24',200000);
 
 ============
@@ -465,7 +461,7 @@ ls
 sqoop import \
 --connect jdbc:mysql://localhost/test \
 --username root \
---password cloudera \
+--password <> \
 --table customer_mapper_avro \
 -m 1  \
 --delete-target-dir \
