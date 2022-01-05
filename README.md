@@ -36,6 +36,7 @@ Come to mysql and add 2 more records
 ----------------------------
 
 insert into custoincre values(4,'mohamed','2015-09-23');
+
 insert into custoincre values(5,'arun','2015-09-24');
 
 ----------------------------
@@ -70,7 +71,9 @@ use dbser;
 CREATE TABLE custser(custid INT,firstname VARCHAR(20),createdt date);
 
 insert into custser values(1,'Arun','2015-09-20');
+
 insert into custser values(2,'srini','2015-09-21');
+
 insert into custser values(3,'vasu','2015-09-22');
 
 Edge Node
@@ -91,9 +94,9 @@ hadoop fs -cat /user/cloudera/jobdata_test/*
 
 3) Sqoop Job Created
 
-=======================================
+======================
 Mysql 
-=======================================
+======================
 mysql -uroot -p<>
 
 create database custserdb;
@@ -103,12 +106,14 @@ CREATE TABLE cust_job(custid INT,firstname VARCHAR(20),createdt date);
 
 
 insert into cust_job values(1,'Arun','2015-09-20');
+
 insert into cust_job values(2,'srini','2015-09-21');
+
 insert into cust_job values(3,'vasu','2015-09-22');
 
-=======================================
+================
 Edge node create the job ,validate,execute
-=======================================
+================
 hadoop dfsadmin -safemode leave
 
 sqoop job \
@@ -133,17 +138,17 @@ cd
 cd .sqoop
 cat metastore.db.script | grep 'last.value'   --> you will see 3
 
-========================================
+==================
 Mysql
-=======================================
+==================
 
 insert into cust_job values(4,'mohamed','2015-09-23');
 insert into cust_job values(5,'ravi','2015-09-24');
 
 
-==============================
+=====================
 execute the job again
-==============================
+=====================
 sqoop job --exec incjob  ---> give password cloudera and give enter
 cd
 cd .sqoop
@@ -151,9 +156,9 @@ cat metastore.db.script | grep 'last.value'    --> gets updated to 5
 
 4) Not ask Password while executing the commands
 
-=======================================
+====================
 Edge node create the job ,validate,execute
-=======================================
+====================
 
 hadoop dfsadmin -safemode leave
 
@@ -176,9 +181,9 @@ sqoop job --list
 
 sqoop job --exec passjob      ---> It will not ask the password
 
-===========================
+===============
 6) Update tasks commands
-===============================
+===============
 
 Task 1 ------
 
@@ -190,7 +195,9 @@ CREATE TABLE cust_s(custid INT,firstname VARCHAR(20));
 
 
 insert into cust_s values(1,'Arun');
+
 insert into cust_s values(2,'srini');
+
 insert into cust_s values(3,'vasu');
 
 
@@ -240,11 +247,11 @@ sqoop import \
 hadoop fs -cat /user/cloudera/job_out_parquet/*
 
 
-=======================================
+=================
 7) 
 
 Mysql 
-==============================
+=================
 
 mysql -uroot -pcloudera
 create database test;
@@ -253,14 +260,18 @@ use test;
 CREATE TABLE customermoda(custid INT,firstname VARCHAR(20),createdt date);
 
 insert into customermoda values(1,'Arun','2015-09-20');
+
 insert into customermoda values(2,'srini','2015-09-21');
+
 insert into customermoda values(3,'vasu','2015-09-22');
+
 insert into customermoda values(4,'mohamed','2015-09-23');
+
 insert into customermoda values(5,'arun','2015-09-24');
 
-==============================
+==============
 Open Edge Node
-==============================
+==============
 
 
 sqoop import \
@@ -274,16 +285,16 @@ sqoop import \
 hadoop fs -ls /user/cloudera/dataimportmod2
 hadoop fs -cat /user/cloudera/dataimportmod2/*
 
-==============================
+=========
 Mysql 
-==============================
+=========
 
 update customermoda set firstname='zeyo' where custid=3;
 select * from customermoda;
 
-==============================
+=========
 Open Edge Node
-==============================
+=========
 
 sqoop import \
 --connect jdbc:mysql://localhost/test \
@@ -303,7 +314,7 @@ hadoop fs -ls /user/cloudera/dataimportmod2
 hadoop fs -cat /user/cloudera/dataimportmod2/*
 
 
-===================================================================
+===================
 8) SQOOP AWS IMPORT
 Mysql ---
 =========
@@ -314,10 +325,15 @@ use test;
 CREATE TABLE customermod4(custid INT,firstname VARCHAR(20),lastname VARCHAR(20),city varchar(50),age int,createdt date,transactamt int );
 
 insert into customermod4 values(1,'Arun','Kumar','chennai',33,'2015-09-20',100000);
+
 insert into customermod4 values(2,'srini','vasan','chennai',33,'2015-09-21',10000);
+
 insert into customermod4 values(3,'vasu','devan','banglore',39,'2015-09-22',90000);
+
 insert into customermod4 values(4,'mohamed','imran','hyderabad',33,'2015-09-23',1000);
+
 insert into customermod4 values(5,'arun','basker','chennai',23,'2015-09-24',200000);
+
 insert into customermod4 values(6,'arun','basker','chennai',23,'2015-09-24',200000);
 
 =========
@@ -326,15 +342,15 @@ Edge Node
 
 
 sqoop import \
--Dfs.s3a.access.key=AKIAZXAZFFZFREINE5UZ \
--Dfs.s3a.secret.key=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  \
+-Dfs.s3a.access.key=<> \
+-Dfs.s3a.secret.key=<>  \
 -Dfs.s3a.endpoint=s3.ap-south-1.amazonaws.com  \
 --connect jdbc:mysql://localhost/test \
 --username root \
 --password cloudera \
 --table customermod4 \
 -m 1 \
---target-dir s3a://clouderazeyo/<urname>_import;
+--target-dir s3a://<>/<urname>_import;
 
 ==========================================================
 
@@ -347,14 +363,23 @@ use test;
 CREATE TABLE customer_mapper(custid INT,firstname VARCHAR(20),lastname VARCHAR(20),city varchar(50),age int,createdt date,transactamt int );
 
 insert into customer_mapper values(1,'Arun','Kumar','chennai',33,'2015-09-20',100000);
+  
 insert into customer_mapper values(2,'srini','vasan','chennai',33,'2015-09-21',10000);
+  
 insert into customer_mapper values(3,'vasu','devan','banglore',39,'2015-09-22',90000);
+  
 insert into customer_mapper values(4,'mohamed','imran','hyderabad',33,'2015-09-23',1000);
+  
 insert into customer_mapper values(5,'arun','basker','chennai',23,'2015-09-24',200000);
+  
 insert into customer_mapper values(6,'arun','basker','chennai',23,'2015-09-24',200000);
+  
 insert into customer_mapper values(7,'arun','basker','chennai',23,'2015-09-24',200000);
+  
 insert into customer_mapper values(8,'arun','basker','chennai',23,'2015-09-24',200000);
+  
 insert into customer_mapper values(9,'arun','basker','chennai',23,'2015-09-24',200000);
+  
 insert into customer_mapper values(10,'arun','basker','chennai',23,'2015-09-24',200000);
 
 
